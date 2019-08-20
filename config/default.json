@@ -1,0 +1,3 @@
+{
+    "mongoURI": "mongodb+srv://cqyates:powerofone@catalogapp-yrequ.mongodb.net/test?retryWrites=true&w=majority"
+}
