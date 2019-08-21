@@ -8,8 +8,8 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User')
 
-//@route GET api/users
-//@desc test route
+//@route POST api/users
+//@desc Create New User
 //@access Public
 router.post('/',
     [
