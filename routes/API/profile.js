@@ -31,6 +31,8 @@ router.post('/', auth, async (req, res) => {
     const {
         company,
         website,
+        ebayStore,
+        etsyStore,
         location,
         youtube,
         facebook,
@@ -44,6 +46,8 @@ router.post('/', auth, async (req, res) => {
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
     if (website) profileFields.website = website;
+    if (ebayStore) profileFields.ebayStore = ebayStore;
+    if (etsyStore) profileFields.etsyStore = etsyStore;
     if (location) profileFields.location = location;
 
     // Build social object
@@ -80,8 +84,8 @@ router.post('/', auth, async (req, res) => {
 }
 );
 
-// @route Get api/profile
-// @desc Get all profiles
+// @route  Get api/profile
+// @desc   Get all profiles
 // @access Public
 router.get('/', async (req, res) => {
     try {

@@ -11,6 +11,12 @@ const ProfileSchema = new mongoose.Schema({
   website: {
     type: String
   },
+  ebayStore: {
+    type: String
+  },
+  etsyStore: {
+    type: String
+  },
   location: {
     type: String
   },
