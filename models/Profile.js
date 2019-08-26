@@ -17,6 +17,9 @@ const ProfileSchema = new mongoose.Schema({
   etsyStore: {
     type: String
   },
+  blog: {
+    type: String,
+  },
   location: {
     type: String
   },

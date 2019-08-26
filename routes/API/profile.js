@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
+
+//Models
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
@@ -24,15 +26,17 @@ router.get('/me', auth, async (req, res) => {
     }
 });
 
-//@route POST api/profile
-//@desc Create or update a user profile
-//@access Private
+// @route POST api/profile
+// @desc Create or update a user profile
+// @access Private
+// different from udemy example/doesn't have validation because I skipped skills and status
 router.post('/', auth, async (req, res) => {
     const {
         company,
         website,
         ebayStore,
         etsyStore,
+        blog,
         location,
         youtube,
         facebook,
@@ -48,6 +52,7 @@ router.post('/', auth, async (req, res) => {
     if (website) profileFields.website = website;
     if (ebayStore) profileFields.ebayStore = ebayStore;
     if (etsyStore) profileFields.etsyStore = etsyStore;
+    if (blog) profileFields.blog = blog;
     if (location) profileFields.location = location;
 
     // Build social object
@@ -104,10 +109,13 @@ router.get('/user/:user_id', async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
 
-        if(!profile) return res.status(400).json({ msg: 'There is no profile for this user'})
+        if(!profile) return res.status(400).json({ msg: 'Profile Not Found'})
         res.json(profile);
     } catch (err) {
         console.error(err.message);
+        if(err.kind == 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile Not Found'})
+        }
         res.status(500).send('Server Error');
     }
 });
@@ -120,8 +128,8 @@ router.delete('/', auth, async (req, res) => {
         // @todo remove user posts
         // Remove profile
         await Profile.findOneAndRemove({ user: req.user.id });
-        
-        await User.findOneAndUpdate({ _id: req.user.id });
+        //remove user
+        await User.findOneAndRemove({ _id: req.user.id });
         res.json({ msg: 'User Removed' });
     } catch (err) {
         console.error(err.message);
